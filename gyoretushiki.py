@@ -31,18 +31,16 @@ def determinant_with_time(matrix):
 
 
 def write_result_to_csv(output_file, matrix_size, matrix, determinant, elapsed_time):
+    # Reduce output: do not write full matrix to CSV to keep file small
     with open(output_file, "w", newline="") as csvfile:
-        fieldnames = ["Matrix Size", "Elapsed Time (s)", "Determinant", "Matrix"]
+        fieldnames = ["Matrix Size", "Elapsed Time (s)", "Determinant"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerow(
-            {
-                "Matrix Size": matrix_size,
-                "Elapsed Time (s)": elapsed_time,
-                "Determinant": determinant,
-                "Matrix": matrix,
-            }
-        )
+        writer.writerow({
+            "Matrix Size": matrix_size,
+            "Elapsed Time (s)": elapsed_time,
+            "Determinant": determinant,
+        })
 
 
 def main():

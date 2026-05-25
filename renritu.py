@@ -31,15 +31,15 @@ def solve_linear_equation(matrix):
 
 
 def write_result_to_csv(output_file, matrix_size, matrix, solution, elapsed_time):
+    # Reduce output: do not include full matrix in CSV to prevent large files
     with open(output_file, "w", newline="") as csvfile:
-        fieldnames = ["Matrix Size", "Elapsed Time (s)", "Matrix", "Solution"]
+        fieldnames = ["Matrix Size", "Elapsed Time (s)", "Solution"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerow(
             {
                 "Matrix Size": matrix_size,
                 "Elapsed Time (s)": elapsed_time,
-                "Matrix": matrix,
                 "Solution": solution,
             }
         )
