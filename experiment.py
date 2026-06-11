@@ -14,6 +14,18 @@ def rounded_list(values, digits=6):
     return [round(float(value), digits) for value in values]
 
 
+def rounded_number(value, digits=6):
+    if value is None:
+        return None
+    if np.iscomplexobj(value):
+        real_part = round(float(np.real(value)), digits)
+        imag_part = round(float(np.imag(value)), digits)
+        if abs(imag_part) < 10 ** (-digits):
+            return real_part
+        return complex(real_part, imag_part)
+    return round(float(value), digits)
+
+
 def generate_random_matrix(size, lower=0, upper=9):
     return [[random.randint(lower, upper) for _ in range(size)] for _ in range(size)]
 
@@ -111,7 +123,7 @@ def validate_section_3_1():
     for value in eigen_values:
         print(f"固有値: {round(value, 6)}")
     print(f"計算時間 (QR, 自作): {eigen_time:.6f} 秒")
-    print(f"NumPy 固有値: {[round(v,6) for v in np_eigvals]}")
+    print(f"NumPy 固有値: {[rounded_number(v) for v in np_eigvals]}")
     print(f"NumPy 計算時間: {np_eigen_time:.6f} 秒")
 
 
@@ -160,7 +172,7 @@ def benchmark_section_3_2(max_size=10, seed=42):
         try:
             eigvals, eigvecs = np.linalg.eig(np_matrix)
             idx = int(np.argmax(np.abs(eigvals)))
-            np_eigenvalue = float(eigvals[idx])
+            np_eigenvalue = eigvals[idx].item()
             np_eigenvector = list(eigvecs[:, idx])
         except Exception:
             np_eigenvalue = float('nan')
